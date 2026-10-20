@@ -157,6 +157,19 @@ The tests use xUnit v3 on [Microsoft.Testing.Platform](https://learn.microsoft.c
 selected in [`global.json`](backend/global.json). IDE test explorers need a version that supports it: Visual Studio 2022
 17.14+, Visual Studio 2026, or a current Rider or VS Code C# Dev Kit.
 
+**Debugging tests in Visual Studio.** Several tests check error handling, so they cause exceptions on purpose:
+- invalid converter settings
+- malformed symbols
+- inconsistent Yahoo data
+- an unknown symbol returning 404
+
+The tests catch these exceptions and pass. Under the debugger, though, Visual Studio stops on each one with
+*Exception User-Unhandled*. The exception is thrown in project code but caught in library code (Shouldly or ASP.NET
+Core), and Visual Studio's *Just My Code* setting treats that as unhandled. To avoid the stops:
+- run the tests instead of debugging them (Test Explorer → **Run All Tests**), or
+- press **Continue** at each stop, or
+- clear **Break when this exception type is user-unhandled** in the exception popup.
+
 ## Docker
 
 ```bash
