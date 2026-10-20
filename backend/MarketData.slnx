@@ -4,4 +4,8 @@
     <Project Path="src/MarketData.Application/MarketData.Application.csproj" />
     <Project Path="src/MarketData.Infrastructure/MarketData.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MarketData.IntegrationTests/MarketData.IntegrationTests.csproj" />
+    <Project Path="tests/MarketData.UnitTests/MarketData.UnitTests.csproj" />
+  </Folder>
 </Solution>
