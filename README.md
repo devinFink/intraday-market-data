@@ -41,6 +41,9 @@ The API listens on `http://localhost:5080`. Try it:
 curl http://localhost:5080/api/v1/stocks/TSLA/daily-summaries
 ```
 
+**Visual Studio or Rider:** open [`backend/MarketData.slnx`](backend/MarketData.slnx), not the repository folder.
+**File → Open → Folder** shows the files without loading the projects, so Test Explorer won't find any tests.
+
 In Development, interactive API docs are at <http://localhost:5080/scalar> and the OpenAPI document is at
 <http://localhost:5080/openapi/v1.json>. [`MarketData.Api.http`](backend/src/MarketData.Api/MarketData.Api.http) has
 ready-made requests for Visual Studio, Rider and VS Code.
