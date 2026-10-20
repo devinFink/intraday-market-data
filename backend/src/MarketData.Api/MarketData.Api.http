@@ -1,0 +1,19 @@
+@host = http://localhost:5080
+
+### Daily summaries for a valid symbol
+GET {{host}}/api/v1/stocks/TSLA/daily-summaries
+Accept: application/json
+
+### Unknown symbol -> 404 problem details
+GET {{host}}/api/v1/stocks/NOTAREAL123/daily-summaries
+Accept: application/json
+
+### Malformed symbol -> 400 validation problem details
+GET {{host}}/api/v1/stocks/BAD%24%24/daily-summaries
+Accept: application/json
+
+### Liveness
+GET {{host}}/health/live
+
+### OpenAPI document (Development only)
+GET {{host}}/openapi/v1.json

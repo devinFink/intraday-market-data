@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MarketData.Api\MarketData.Api.csproj" />
+    <ProjectReference Include="..\..\src\MarketData.Application\MarketData.Application.csproj" />
+    <ProjectReference Include="..\..\src\MarketData.Infrastructure\MarketData.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

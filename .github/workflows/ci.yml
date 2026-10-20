@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore MarketData.slnx
+
+      - name: Build
+        run: dotnet build MarketData.slnx --configuration Release --no-restore
+
+      - name: Test
+        # Tests tagged Category=External call the live Yahoo Finance API and are excluded here.
+        run: >
+          dotnet test --solution MarketData.slnx --configuration Release --no-build
+          --filter-not-trait "Category=External"
+          --coverage --coverage-output-format cobertura
+          --report-xunit-trx
+
+      - name: Upload test results and coverage
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: backend-test-results
+          path: backend/TestResults/
+          if-no-files-found: warn
+
+  backend-docker:
+    name: Backend container image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build image
+        run: docker build --pull --tag marketdata-api:ci backend
+
+      - name: Smoke test container
+        run: |
+          docker run --detach --name marketdata-api --publish 8080:8080 marketdata-api:ci
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://localhost:8080/health/live; then
+              echo; echo "API is live"; exit 0
+            fi
+            sleep 1
+          done
+          docker logs marketdata-api
+          exit 1
