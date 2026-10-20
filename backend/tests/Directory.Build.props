@@ -15,6 +15,15 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
   </ItemGroup>
 
+  <ItemGroup Label="VSTest support">
+    <!--
+      `dotnet test` runs on Microsoft.Testing.Platform (see global.json). These two packages let IDE test explorers that
+      discover tests through VSTest (Visual Studio's default) find and run them too.
+    -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
   <ItemGroup>
     <Using Include="Shouldly" />
     <Using Include="Xunit" />

@@ -153,9 +153,11 @@ To collect coverage (Cobertura reports are written to `backend/TestResults/`):
 dotnet test --solution MarketData.slnx --filter-not-trait "Category=External" --coverage --coverage-output-format cobertura
 ```
 
-The tests use xUnit v3 on [Microsoft.Testing.Platform](https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-intro),
-selected in [`global.json`](backend/global.json). IDE test explorers need a version that supports it: Visual Studio 2022
-17.14+, Visual Studio 2026, or a current Rider or VS Code C# Dev Kit.
+The tests use xUnit v3. `dotnet test` runs them on
+[Microsoft.Testing.Platform](https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-intro), selected
+in [`global.json`](backend/global.json). The test projects also reference the VSTest adapter (`Microsoft.NET.Test.Sdk`
+and `xunit.runner.visualstudio`), so Visual Studio's Test Explorer, Rider and VS Code's C# Dev Kit find them with no
+extra setup.
 
 **Debugging tests in Visual Studio.** Several tests check error handling, so they cause exceptions on purpose:
 - invalid converter settings
